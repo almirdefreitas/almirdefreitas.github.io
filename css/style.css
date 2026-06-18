@@ -83,6 +83,24 @@ nav a:hover, nav a.active {
   color: var(--acento);
 }
 
+/* ── HERO IMAGEM (banner) ── */
+.hero-image {
+  width: 100%;
+  max-height: 480px;
+  overflow: hidden;
+  border-bottom: 2px solid var(--preto);
+  background: var(--preto);
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  max-height: 480px;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(100%) contrast(1.05);
+}
+
 /* ── HERO ── */
 .hero {
   border-bottom: 1px solid var(--claro);

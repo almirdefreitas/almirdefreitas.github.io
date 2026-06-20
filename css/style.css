@@ -330,6 +330,21 @@ nav a:hover, nav a.active {
   margin-top: -0.6rem;
 }
 
+.article-body .article-image {
+  width: 100%;
+  max-width: 680px;
+  display: block;
+  margin: 1.6rem 0 0.4rem;
+  border: 1px solid var(--claro);
+}
+
+.article-body .article-image-credit {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  color: var(--medio);
+  margin-bottom: 1.4rem;
+}
+
 /* ── SOBRE ── */
 .sobre-wrap {
   max-width: 680px;

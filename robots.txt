@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://almirdefreitas.com.br/sitemap.xml

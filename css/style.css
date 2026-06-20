@@ -321,6 +321,15 @@ nav a:hover, nav a.active {
 .article-body strong { font-weight: 500; }
 .article-body em { font-style: italic; }
 
+.article-body .video-caption {
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--medio);
+  line-height: 1.5;
+  margin-top: -0.6rem;
+}
+
 /* ── SOBRE ── */
 .sobre-wrap {
   max-width: 680px;

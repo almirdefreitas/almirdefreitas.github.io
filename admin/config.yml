@@ -20,6 +20,8 @@ collections:
     folder: "textos"
     create: true
     slug: "{{slug}}"
+    identifier_field: "title"
+    summary: "{{title}} — {{date}}"
     extension: "html"
     format: "yaml-frontmatter"
     fields:
@@ -46,6 +48,8 @@ collections:
     folder: "posts"
     create: true
     slug: "{{slug}}"
+    identifier_field: "title"
+    summary: "{{title}} — {{date}}"
     extension: "html"
     format: "yaml-frontmatter"
     fields:

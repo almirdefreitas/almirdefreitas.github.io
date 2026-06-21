@@ -1,0 +1,60 @@
+backend:
+  name: git-gateway
+  branch: main
+
+publish_mode: simple
+media_folder: "img/posts"
+public_folder: "../img/posts"
+
+site_url: https://almirdefreitas.com.br
+display_url: https://almirdefreitas.com.br
+
+locale: "pt"
+
+collections:
+  - name: "textos"
+    label: "Textos"
+    label_singular: "Texto"
+    folder: "textos"
+    create: true
+    slug: "{{slug}}"
+    extension: "html"
+    format: "frontmatter"
+    frontmatter_delimiter: ["<!--cms", "cms-->"]
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Data", name: "date", widget: "date", format: "YYYY-MM-DD", date_format: "DD/MM/YYYY" }
+      - label: "Categoria"
+        name: "categoria"
+        widget: "select"
+        options:
+          - { label: "Literatura", value: "literatura" }
+          - { label: "Cinema", value: "cinema" }
+          - { label: "Entrevista", value: "entrevista" }
+          - { label: "Vida e obra", value: "vida-e-obra" }
+          - { label: "Ideias", value: "ideias" }
+          - { label: "Viagem", value: "viagem" }
+          - { label: "Clássicos", value: "classicos" }
+      - label: "Corpo do texto"
+        name: "body"
+        widget: "markdown"
+        buttons: ["bold", "italic", "link", "quote"]
+        editor_components: ["image", "youtube-embed"]
+
+  - name: "posts_blog"
+    label: "Posts do blog (arquivo)"
+    label_singular: "Post do blog"
+    folder: "posts"
+    create: true
+    slug: "{{slug}}"
+    extension: "html"
+    format: "frontmatter"
+    frontmatter_delimiter: ["<!--cms", "cms-->"]
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Data", name: "date", widget: "date", format: "YYYY-MM-DD", date_format: "DD/MM/YYYY" }
+      - label: "Corpo do texto"
+        name: "body"
+        widget: "markdown"
+        buttons: ["bold", "italic", "link", "quote"]
+        editor_components: ["image", "youtube-embed"]

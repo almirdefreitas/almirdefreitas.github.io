@@ -19,7 +19,7 @@ collections:
     create: true
     slug: "{{slug}}"
     extension: "html"
-    format: "html-frontmatter"
+    format: "yaml-frontmatter"
     frontmatter_delimiter: ["<!--cms", "cms-->"]
     fields:
       - { label: "Título", name: "title", widget: "string" }
@@ -48,7 +48,7 @@ collections:
     create: true
     slug: "{{slug}}"
     extension: "html"
-    format: "html-frontmatter"
+    format: "yaml-frontmatter"
     frontmatter_delimiter: ["<!--cms", "cms-->"]
     fields:
       - { label: "Título", name: "title", widget: "string" }

@@ -20,7 +20,6 @@ collections:
     slug: "{{slug}}"
     extension: "html"
     format: "yaml-frontmatter"
-    frontmatter_delimiter: ["<!--cms", "cms-->"]
     fields:
       - { label: "Título", name: "title", widget: "string" }
       - { label: "Data", name: "date", widget: "date", format: "YYYY-MM-DD", date_format: "DD/MM/YYYY" }
@@ -38,8 +37,6 @@ collections:
       - label: "Corpo do texto"
         name: "body"
         widget: "markdown"
-        buttons: ["bold", "italic", "link", "quote"]
-        editor_components: ["image", "youtube-embed"]
 
   - name: "posts_blog"
     label: "Posts do blog (arquivo)"
@@ -49,12 +46,9 @@ collections:
     slug: "{{slug}}"
     extension: "html"
     format: "yaml-frontmatter"
-    frontmatter_delimiter: ["<!--cms", "cms-->"]
     fields:
       - { label: "Título", name: "title", widget: "string" }
       - { label: "Data", name: "date", widget: "date", format: "YYYY-MM-DD", date_format: "DD/MM/YYYY" }
       - label: "Corpo do texto"
         name: "body"
         widget: "markdown"
-        buttons: ["bold", "italic", "link", "quote"]
-        editor_components: ["image", "youtube-embed"]

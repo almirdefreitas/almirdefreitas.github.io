@@ -32,6 +32,50 @@ categoria: viagem
     <h1>Rota de vulcões</h1>
     <div class="article-date">05 abr 2019</div>
   </div>
+  </div>
+
+<div id="pdf-container" style="margin: 2em 0;">
+  <canvas id="pdf-canvas" style="width:100%; border: 1px solid #ccc;"></canvas>
+  <div style="text-align:center; margin-top: 0.8em; font-family: sans-serif; font-size: 0.9em;">
+    <button onclick="changePage(-1)">← Anterior</button>
+    <span style="margin: 0 1em;">Página <span id="page-num"></span> de <span id="page-count"></span></span>
+    <button onclick="changePage(1)">Próxima →</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  var pdfDoc = null, pageNum = 1;
+  var canvas = document.getElementById('pdf-canvas');
+  var ctx = canvas.getContext('2d');
+
+  function renderPage(num) {
+    pdfDoc.getPage(num).then(function(page) {
+      var viewport = page.getViewport({ scale: canvas.offsetWidth / page.getViewport({ scale: 1 }).width });
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+      page.render({ canvasContext: ctx, viewport: viewport });
+      document.getElementById('page-num').textContent = num;
+    });
+  }
+
+  function changePage(delta) {
+    var newPage = pageNum + delta;
+    if (newPage < 1 || newPage > pdfDoc.numPages) return;
+    pageNum = newPage;
+    renderPage(pageNum);
+  }
+
+  pdfjsLib.getDocument('/pdf/_VT252 Chile.pdf').promise.then(function(doc) {
+    pdfDoc = doc;
+    document.getElementById('page-count').textContent = doc.numPages;
+    renderPage(pageNum);
+  });
+</script>
+
+<div class="article-body">
   <div class="article-body">
     <p><em>Lado a lado com a Cordilheira dos Andes, entre imensos lagos azuis, termas quentinhas, centros de esqui e bosques deslumbrantes, o sul do Chile é pura força da natureza</em></p>
 <p>"Ao pé dos vulcões, junto aos ventisqueiros, entre os grandes lagos, o fragrante, o silencioso, o emaranhado bosque chileno…” Assim Pablo Neruda inicia sua autobiografia, <em>Confesso Que Vivi</em>, e assim se pode perfeitamente começar a apresentação de Araucanía, região no sul do Chile em que o poeta, prêmio Nobel de Literatura em 1971, passou a in-fância e a adolescência. “Quem não conhece o bosque chileno”, completa ele adiante em suas memórias, “não conhece este planeta.”</p>

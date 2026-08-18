@@ -33,14 +33,14 @@ categoria: viagem
     <div class="article-date">05 abr 2019</div>
   </div>
 <div class="article-wrap" style="margin-bottom: 2em;">
-  <div id="pdf-container">
-    <canvas id="pdf-canvas" style="width:100%; border: 1px solid #ccc; display:block;"></canvas>
-    <div style="text-align:center; margin-top: 0.8em; font-family: sans-serif; font-size: 0.9em;">
+  <div id="pdf-container" style="background:#fff;">
+    <canvas id="pdf-canvas" style="width:100%; display:block;"></canvas>
+    <div id="pdf-controls" style="text-align:center; margin-top: 0.8em; font-family: sans-serif; font-size: 0.9em; padding: 0.5em; background:#fff;">
       <button onclick="changePage(-1)">← Anterior</button>
       <span style="margin: 0 1em;">Página <span id="page-num"></span> de <span id="page-count"></span></span>
-              <button onclick="changePage(1)">Próxima →</button>
-        <button onclick="document.getElementById('pdf-canvas').requestFullscreen()" style="margin-left: 1.5em;">⛶ Tela cheia</button>
-      </div>
+      <button onclick="changePage(1)">Próxima →</button>
+      <button onclick="document.getElementById('pdf-container').requestFullscreen()" style="margin-left: 1.5em;">⛶ Tela cheia</button>
+    </div>
   </div>
 </div>
 
@@ -54,9 +54,15 @@ categoria: viagem
 
   function renderPage(num) {
     pdfDoc.getPage(num).then(function(page) {
-      var viewport = page.getViewport({ scale: canvas.offsetWidth / page.getViewport({ scale: 1 }).width });
-      canvas.height = viewport.height;
+      var dpr = window.devicePixelRatio || 1;
+      var containerWidth = document.getElementById('pdf-container').offsetWidth;
+      var baseViewport = page.getViewport({ scale: 1 });
+      var scale = (containerWidth / baseViewport.width) * dpr;
+      var viewport = page.getViewport({ scale: scale });
       canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      canvas.style.width = containerWidth + 'px';
+      canvas.style.height = (viewport.height / dpr) + 'px';
       page.render({ canvasContext: ctx, viewport: viewport });
       document.getElementById('page-num').textContent = num;
     });
@@ -69,7 +75,11 @@ categoria: viagem
     renderPage(pageNum);
   }
 
-  pdfjsLib.getDocument('/pdf/VT252Chile.pdf').promise.then(function(doc) {
+  document.getElementById('pdf-container').addEventListener('fullscreenchange', function() {
+    renderPage(pageNum);
+  });
+
+  pdfjsLib.getDocument('/pdf/_VT252Chile.pdf').promise.then(function(doc) {
     pdfDoc = doc;
     document.getElementById('page-count').textContent = doc.numPages;
     renderPage(pageNum);

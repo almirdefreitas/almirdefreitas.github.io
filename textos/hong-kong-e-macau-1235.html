@@ -30,6 +30,49 @@ categoria: viagem
     <div class="article-category">Almir de Freitas</div>
     <h1>Hong Kong e Macau</h1>
     <div class="article-date">06 abr 2019</div>
+      <div id="pdf-container" style="background:#fff; margin-bottom: 2em;">
+    <canvas id="pdf-canvas" style="width:100%; display:block;"></canvas>
+    <div id="pdf-controls" style="text-align:center; margin-top: 0.8em; font-family: sans-serif; font-size: 0.9em; padding: 0.5em;">
+      <button onclick="changePage(-1)">← Anterior</button>
+      <span style="margin: 0 1em;">Página <span id="page-num"></span> de <span id="page-count"></span></span>
+      <button onclick="changePage(1)">Próxima →</button>
+      <button onclick="abrirPDF()" style="margin-left: 1.5em;">⛶ Ampliar</button>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    var pdfDoc = null, pageNum = 1;
+    var canvas = document.getElementById('pdf-canvas');
+    var ctx = canvas.getContext('2d');
+    function renderPage(num) {
+      pdfDoc.getPage(num).then(function(page) {
+        var dpr = window.devicePixelRatio || 1;
+        var containerWidth = document.getElementById('pdf-container').offsetWidth;
+        var baseViewport = page.getViewport({ scale: 1 });
+        var scale = (containerWidth / baseViewport.width) * dpr;
+        var viewport = page.getViewport({ scale: scale });
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        canvas.style.width = containerWidth + 'px';
+        canvas.style.height = (viewport.height / dpr) + 'px';
+        page.render({ canvasContext: ctx, viewport: viewport });
+        document.getElementById('page-num').textContent = num;
+      });
+    }
+    function changePage(delta) {
+      var newPage = pageNum + delta;
+      if (newPage < 1 || newPage > pdfDoc.numPages) return;
+      pageNum = newPage;
+      renderPage(pageNum);
+    }
+    function abrirPDF() { window.open('/pdf/VT255-HK-Macau.pdf', '_blank'); }
+    pdfjsLib.getDocument('/pdf/VT255-HK-Macau.pdf').promise.then(function(doc) {
+      pdfDoc = doc;
+      document.getElementById('page-count').textContent = doc.numPages;
+      renderPage(pageNum);
+    });
+  </script>
   </div>
   <div class="article-body">
     <p>Ex-colônias de Inglaterra e Portugal, as duas regiões administrativas especiais da China combinam as luzes asiáticas com o passado europeu</p>

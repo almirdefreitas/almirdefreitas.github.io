@@ -39,7 +39,6 @@ categoria: viagem
       <button onclick="changePage(-1)">← Anterior</button>
       <span style="margin: 0 1em;">Página <span id="page-num"></span> de <span id="page-count"></span></span>
       <button onclick="changePage(1)">Próxima →</button>
-      <button onclick="toggleFullscreen()" style="margin-left: 1.5em;">⛶ Tela cheia</button>
     </div>
   </div>
 </div>
@@ -55,19 +54,14 @@ categoria: viagem
   function renderPage(num) {
     pdfDoc.getPage(num).then(function(page) {
       var dpr = window.devicePixelRatio || 1;
-      var fs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+      var containerWidth = document.getElementById('pdf-container').offsetWidth;
       var baseViewport = page.getViewport({ scale: 1 });
-      var targetWidth = fs ? window.innerWidth : document.getElementById('pdf-container').offsetWidth;
-      var scale = (targetWidth / baseViewport.width) * dpr;
+      var scale = (containerWidth / baseViewport.width) * dpr;
       var viewport = page.getViewport({ scale: scale });
       canvas.width = viewport.width;
       canvas.height = viewport.height;
-      canvas.style.width = targetWidth + 'px';
+      canvas.style.width = containerWidth + 'px';
       canvas.style.height = (viewport.height / dpr) + 'px';
-      if (fs) {
-        canvas.style.maxHeight = (window.innerHeight - 60) + 'px';
-        canvas.style.width = 'auto';
-      }
       page.render({ canvasContext: ctx, viewport: viewport });
       document.getElementById('page-num').textContent = num;
     });
@@ -79,30 +73,6 @@ categoria: viagem
     pageNum = newPage;
     renderPage(pageNum);
   }
-
-  function toggleFullscreen() {
-    var container = document.getElementById('pdf-container');
-    if (container.requestFullscreen) container.requestFullscreen();
-    else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
-  }
-
-  function onFullscreenChange() {
-    var fs = !!(document.fullscreenElement || document.webkitFullscreenElement);
-    var container = document.getElementById('pdf-container');
-    if (fs) {
-      container.style.cssText = 'background:#000; display:flex; flex-direction:column; align-items:center; justify-content:center; width:100vw; height:100vh;';
-      document.getElementById('pdf-controls').style.cssText = 'text-align:center; padding:0.5em; color:#fff; font-family:sans-serif; font-size:0.9em;';
-    } else {
-      container.style.cssText = 'background:#fff;';
-      canvas.style.width = '100%';
-      canvas.style.maxHeight = '';
-      document.getElementById('pdf-controls').style.cssText = 'text-align:center; margin-top:0.8em; font-family:sans-serif; font-size:0.9em; padding:0.5em;';
-    }
-    renderPage(pageNum);
-  }
-
-  document.addEventListener('fullscreenchange', onFullscreenChange);
-  document.addEventListener('webkitfullscreenchange', onFullscreenChange);
 
   pdfjsLib.getDocument('/pdf/VT252Chile.pdf').promise.then(function(doc) {
     pdfDoc = doc;

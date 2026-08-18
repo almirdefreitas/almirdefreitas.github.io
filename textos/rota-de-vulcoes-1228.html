@@ -38,6 +38,7 @@ categoria: viagem
       <button onclick="changePage(-1)">← Anterior</button>
       <span style="margin: 0 1em;">Página <span id="page-num"></span> de <span id="page-count"></span></span>
       <button onclick="changePage(1)">Próxima →</button>
+      <button onclick="abrirPDF()" style="margin-left: 1.5em;">⛶ Ampliar</button>
     </div>
   </div>
 </div>
@@ -78,6 +79,10 @@ categoria: viagem
     document.getElementById('page-count').textContent = doc.numPages;
     renderPage(pageNum);
   });
+
+    function abrirPDF() {
+    window.open('/pdf/VT252Chile.pdf', '_blank');
+  }
 </script>
     
   <div class="article-body">

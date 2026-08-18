@@ -68,7 +68,7 @@ categoria: viagem
     renderPage(pageNum);
   }
 
-  pdfjsLib.getDocument('/pdf/_VT252Chile.pdf').promise.then(function(doc) {
+  pdfjsLib.getDocument('/pdf/VT252Chile.pdf').promise.then(function(doc) {
     pdfDoc = doc;
     document.getElementById('page-count').textContent = doc.numPages;
     renderPage(pageNum);

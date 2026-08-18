@@ -31,7 +31,53 @@ categoria: viagem
     <div class="article-category">Almir de Freitas</div>
     <h1>Era uma vez...</h1>
     <div class="article-date">06 abr 2019</div>
+    </div>
+
+  <div id="pdf-container" style="background:#fff; margin-bottom: 2em;">
+    <canvas id="pdf-canvas" style="width:100%; display:block;"></canvas>
+    <div id="pdf-controls" style="text-align:center; margin-top: 0.8em; font-family: sans-serif; font-size: 0.9em; padding: 0.5em;">
+      <button onclick="changePage(-1)">← Anterior</button>
+      <span style="margin: 0 1em;">Página <span id="page-num"></span> de <span id="page-count"></span></span>
+      <button onclick="changePage(1)">Próxima →</button>
+      <button onclick="abrirPDF()" style="margin-left: 1.5em;">⛶ Ampliar</button>
+    </div>
   </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    var pdfDoc = null, pageNum = 1;
+    var canvas = document.getElementById('pdf-canvas');
+    var ctx = canvas.getContext('2d');
+    function renderPage(num) {
+      pdfDoc.getPage(num).then(function(page) {
+        var dpr = window.devicePixelRatio || 1;
+        var containerWidth = document.getElementById('pdf-container').offsetWidth;
+        var baseViewport = page.getViewport({ scale: 1 });
+        var scale = (containerWidth / baseViewport.width) * dpr;
+        var viewport = page.getViewport({ scale: scale });
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        canvas.style.width = containerWidth + 'px';
+        canvas.style.height = (viewport.height / dpr) + 'px';
+        page.render({ canvasContext: ctx, viewport: viewport });
+        document.getElementById('page-num').textContent = num;
+      });
+    }
+    function changePage(delta) {
+      var newPage = pageNum + delta;
+      if (newPage < 1 || newPage > pdfDoc.numPages) return;
+      pageNum = newPage;
+      renderPage(pageNum);
+    }
+    function abrirPDF() { window.open('/pdf/VT248Suica.pdf', '_blank'); }
+    pdfjsLib.getDocument('/pdf/VT248Suica.pdf').promise.then(function(doc) {
+      pdfDoc = doc;
+      document.getElementById('page-count').textContent = doc.numPages;
+      renderPage(pageNum);
+    });
+  </script>
+
   <div class="article-body">
     <p><em>Destino tradicional de inverno, a Suíça ganha outra luz nos dias de verão. É hora de cruzar as espetaculares paisagens alpinas e ver a alegria das cidades, os campos verdes e os imensos lagos de um país rico eultracivilizado</em></p>
 <p>Era uma vez uma república, nem tão distante, em que a pobreza quase não existia e todos os assuntos de governo eram decididos diretamente pelo povo; lá, gentes de diferentes línguas e crenças viviam em paz e desde muito tinham escolhido se abster das guerras que assolavam as nações vizinhas; nessa terra, de imensos lagos, vales profundos e rios de cor verde-esmeralda, as vacas pastavam sob picos eternamente nevados, tão calmas e sadias que seu leite produzia os melhores queijos e chocolates do mundo; nesse país, tudo funcionava como um relógio de luxo à antiga, de engrenagens azeitadas e vidros bem polidos.</p>
